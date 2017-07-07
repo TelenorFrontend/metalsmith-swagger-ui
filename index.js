@@ -37,9 +37,11 @@ function processFiles(options, files, metalsmith, done) {
   Object.keys(files).forEach((file) => {
     if (!isOpenAPI(file)) return;
     const data = files[file];
-    const dir = path.dirname(file);
-    let html = path.basename(file, path.extname(file)) + '.html';
-    if (dir !== '.') html = (dir + '/' + html);
+    const html = path.format({
+      dir: path.dirname(file),
+      name: path.basename(file, path.extname(file)),
+      ext: '.html',
+    });
 
     data.swagger = {};
     data.swagger.integrateAssets = options.integrateAssets;
@@ -92,9 +94,9 @@ function copyAssets(options, files, metalsmith, done) {
   const dest = options.destination;
 
   // add the assets to the list of scripts/stylesheets
-  stylesheets.push('/' + path.join(dest, 'swagger-ui.css'));
-  scripts.push('/' + path.join(dest, 'swagger-ui-bundle.js'));
-  scripts.push('/' + path.join(dest, 'swagger-ui-layout.js'));
+  stylesheets.push(`/${path.join(dest, 'swagger-ui.css')}`);
+  scripts.push(`/${path.join(dest, 'swagger-ui-bundle.js')}`);
+  scripts.push(`/${path.join(dest, 'swagger-ui-layout.js')}`);
 
   async.parallel([
     (callback) => { // copy the layout
