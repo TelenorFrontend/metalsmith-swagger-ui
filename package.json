@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/TelenorFrontend/metalsmith-swagger-ui/issues"
   },
-  "homepage": "https://github.com/TelenorFrontend/metalsmith-swagger-ui#readme"
+  "homepage": "https://github.com/TelenorFrontend/metalsmith-swagger-ui#readme",
+  "dependencies": {
+    "async": "^2.5.0",
+    "handlebars": "^4.0.10",
+    "merge": "^1.2.0",
+    "recursive-readdir": "^2.2.1",
+    "swagger-ui-dist": "^3.0.17"
+  }
 }
