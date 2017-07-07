@@ -51,13 +51,13 @@
 {{/if}}
 
 <script>
-window.onload = function() {
+window.addEventListener("load", function() {
   const ui = SwaggerUIBundle({
-    {{#unless url}}
-      spec: {{{ contents }}},
-    {{else}}
+    {{#if url}}
       url: "{{ url }}",
-    {{/unless}}
+    {{else}}
+      spec: {{{ contents }}},
+    {{/if}}
     dom_id: '#swagger-ui',
     presets: [
       SwaggerUIBundle.presets.apis,
@@ -68,7 +68,8 @@ window.onload = function() {
     ],
     layout: "StandaloneLayout"
   });
-  
-  window.ui = ui
-}
+
+  window.ui = ui;
+});
+
 </script>

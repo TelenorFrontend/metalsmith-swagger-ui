@@ -34,8 +34,7 @@ function isOpenAPI(file) {
 function processFiles(options, files, metalsmith, done) {
   const template = handlebars.compile(fs.readFileSync(metalsmith.path(options.template), 'utf8'));
 
-  Object.keys(files).forEach((file) => {
-    if (!isOpenAPI(file)) return;
+  Object.keys(files).filter(isOpenAPI).forEach((file) => {
     const data = files[file];
     const html = path.format({
       dir: path.dirname(file),
@@ -48,13 +47,13 @@ function processFiles(options, files, metalsmith, done) {
     data.scripts = []
       .concat(data.scripts)
       .concat(scripts)
-      .filter(n => n !== undefined);
+      .filter(script => script !== undefined);
 
     if (options.defaultStylesheet) {
       data.stylesheets = []
         .concat(data.stylesheets)
         .concat(stylesheets)
-        .filter(n => n !== undefined);
+        .filter(style => style !== undefined);
     }
 
     data.contents = new Buffer(template(data));
@@ -103,10 +102,10 @@ function copyAssets(options, files, metalsmith, done) {
       read(options.layout, path.join(dest, 'swagger-ui-layout.js'), callback);
     },
     (callback) => { // copy the swagger-ui files
-      readdir(src, (err, arr) => {
+      readdir(src, (err, files) => {
         if (err) return done(err);
 
-        async.each(arr, (file, finished) => {
+        async.each(files, (file, finished) => {
           if (/\.(js|html|css)$/.test(path.extname(file))) {
             read(file, path.join(dest, path.relative(src, file)), finished);
           } else {
