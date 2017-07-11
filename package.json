@@ -1,6 +1,6 @@
 {
   "name": "metalsmith-swagger-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A metalsmith plugin to generate beautiful documentation from a Swagger-compliant API",
   "main": "index.js",
   "scripts": {
