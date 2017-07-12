@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const merge = require('merge');
 const async = require('async');
@@ -25,7 +25,7 @@ const defaults = {
  * Todo: add yaml parsing and aditional validation
  */
 function isOpenAPI(file) {
-  return (/\.(json)$/.test(path.extname(file)));
+  return /\.(json|yml|yaml)$/.test(path.extname(file));
 }
 
 /**
@@ -35,12 +35,16 @@ function processFiles(options, files, metalsmith, done) {
   const template = handlebars.compile(fs.readFileSync(metalsmith.path(options.template), 'utf8'));
 
   Object.keys(files).filter(isOpenAPI).forEach((file) => {
-    const data = files[file];
+    const data = Object.assign({}, files[file]);
     const html = path.format({
       dir: path.dirname(file),
       name: path.basename(file, path.extname(file)),
       ext: '.html',
     });
+
+    if (!data.url) {
+      data.url = path.basename(file);
+    }
 
     data.swagger = {};
     data.swagger.integrateAssets = options.integrateAssets;
@@ -59,9 +63,20 @@ function processFiles(options, files, metalsmith, done) {
     }
 
     data.contents = new Buffer(template(data));
-    delete files[file];
 
     files[html] = data;
+
+    // bypass futher processing for source file
+    const destination = path.join(metalsmith._directory, metalsmith._destination, file);
+    const dirname = path.dirname(destination);
+    fs.ensureDirSync(dirname);
+
+    fs.writeFileSync(destination, files[file].contents, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
+    delete files[file];
   });
 
   done(null, true);
