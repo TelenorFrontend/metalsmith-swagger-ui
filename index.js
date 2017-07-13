@@ -51,14 +51,14 @@ function processFiles(options, files, metalsmith, done) {
     data.scripts = []
       .concat(data.scripts)
       .concat(scripts)
-      .concat(metalsmith._metadata.scripts)
+      .concat(metalsmith.metadata().scripts)
       .filter(script => script !== undefined);
 
     if (options.defaultStylesheet) {
       data.stylesheets = []
         .concat(data.stylesheets)
         .concat(stylesheets)
-        .concat(metalsmith._metadata.stylesheets)
+        .concat(metalsmith.metadata().stylesheets)
         .filter(style => style !== undefined);
     }
 
@@ -67,7 +67,7 @@ function processFiles(options, files, metalsmith, done) {
     files[html] = data;
 
     // bypass futher processing for source file
-    const destination = path.join(metalsmith._directory, metalsmith._destination, file);
+    const destination = path.join(metalsmith.source(), metalsmith.destination(), file);
     const dirname = path.dirname(destination);
     fs.ensureDirSync(dirname);
 
