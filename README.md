@@ -48,7 +48,6 @@ The plugin adds two ararys named `scripts` and `stylesheets` with links (relativ
 {{#each scripts}}
   <script src="{{this}}"> </script>
 {{/each}}
-}));
 ```
 
 ## License
