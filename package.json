@@ -18,6 +18,7 @@
   "homepage": "https://github.com/TelenorFrontend/metalsmith-swagger-ui#readme",
   "dependencies": {
     "async": "^2.5.0",
+    "fs-extra": "^3.0.1",
     "handlebars": "^4.0.10",
     "merge": "^1.2.0",
     "recursive-readdir": "^2.2.1",

@@ -53,11 +53,7 @@
 <script>
 window.addEventListener("load", function() {
   const ui = SwaggerUIBundle({
-    {{#if url}}
-      url: "{{ url }}",
-    {{else}}
-      spec: {{{ contents }}},
-    {{/if}}
+    url: "{{ url }}",
     dom_id: '#swagger-ui',
     presets: [
       SwaggerUIBundle.presets.apis,
