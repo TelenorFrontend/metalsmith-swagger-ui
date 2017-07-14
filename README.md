@@ -38,7 +38,7 @@ Defaults are shown in the example above, all options are optional.
 ## Including assets
 If a custom `template` is used, or `integrateAssets` is set to false you have to be sure to include stylesheets and js-files manually. This is usually favourable because it lets you include them in the appropriate places of your own layouts, and not in the middle of the page.
 
-The plugin adds two ararys named `scripts` and `stylesheets` with links (relative to the build folder root) to the file metadata.
+The plugin adds two arrays named `scripts` and `stylesheets` with links (relative to the build folder root) to the file metadata.
 
 ### Example include (with [handlebars](https://github.com/wycats/handlebars.js/)):
 ```html
