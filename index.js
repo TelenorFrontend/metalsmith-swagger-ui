@@ -67,7 +67,7 @@ function processFiles(options, files, metalsmith, done) {
     files[html] = data;
 
     // bypass futher processing for source file
-    const destination = path.join(metalsmith.source(), metalsmith.destination(), file);
+    const destination = path.join(metalsmith.destination(), file);
     const dirname = path.dirname(destination);
     fs.ensureDirSync(dirname);
 
