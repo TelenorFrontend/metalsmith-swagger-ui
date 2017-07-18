@@ -11,15 +11,12 @@ before((done) => {
     .clean(true)
     .use(metalsmithSwaggerUi())
     .build((err) => {
-      if (err) {
-        done(err);
-      } else {
-        done();
-      }
+      if (err) throw done(err);
+      done();
     });
 });
 
-describe('metalsmith-swaggerui', () => {
+describe('metalsmith-swagger-ui', () => {
   describe('#isOpenAPI', () => {
     it('should match .json files', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'petstore.html'))).toBe(true);
@@ -31,6 +28,10 @@ describe('metalsmith-swaggerui', () => {
 
     it('should match .yml files', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'petstore-minimal.html'))).toBe(true);
+    });
+
+    it('should match .openapi files', () => {
+      expect(fs.existsSync(path.join(__dirname, 'build', 'remote.html'))).toBe(true);
     });
 
     it.skip('should not match invalid Open API specs', () => {
@@ -49,6 +50,23 @@ describe('metalsmith-swaggerui', () => {
 
     it('should leave other files untouched', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'json.json'))).toBe(true);
+      expect(fs.existsSync(path.join(__dirname, 'build', 'resource.example'))).toBe(true);
+    });
+
+    it('should link local specs', (done) => {
+      fs.readFile(path.join(__dirname, 'build', 'petstore.html'), (err, data) => {
+        if (err) throw done(err);
+        expect(data.toString()).toMatch(/petstore\.json/);
+        done();
+      });
+    });
+
+    it('should link remote specs', (done) => {
+      fs.readFile(path.join(__dirname, 'build', 'remote.html'), (err, data) => {
+        if (err) throw done(err);
+        expect(data.toString()).toMatch(/http:\/\/petstore.swagger\.io\/v2\/swagger\.json/);
+        done();
+      });
     });
   });
 
@@ -66,11 +84,8 @@ describe('metalsmith-swaggerui', () => {
           integrateAssets: false,
         }))
         .build((err) => {
-          if (err) {
-            done(err);
-          } else {
-            done();
-          }
+          if (err) throw done(err);
+          done();
         });
     });
 
