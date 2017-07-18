@@ -1,6 +1,6 @@
 const Metalsmith = require('metalsmith');
 const expect = require('expect');
-const plugin = require('./../index.js');
+const metalsmithSwaggerUi = require('./../index.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -9,7 +9,7 @@ before((done) => {
     .source('./assets/fixtures')
     .destination('./build')
     .clean(true)
-    .use(plugin())
+    .use(metalsmithSwaggerUi())
     .build((err) => {
       if (err) {
         done(err);
@@ -52,13 +52,13 @@ describe('metalsmith-swaggerui', () => {
     });
   });
 
-  describe('plugin options', () => {
+  describe('metalsmith-swagger-ui options', () => {
     before((done) => {
       Metalsmith(__dirname)
         .source('./assets/fixtures')
         .destination('./build')
         .clean(true)
-        .use(plugin({
+        .use(metalsmithSwaggerUi({
           destination: './customAssetFolder',
           layout: path.join(__dirname, 'assets', 'customLayout.js'),
           template: path.join(__dirname, 'assets', 'customTemplate.hbs'),
