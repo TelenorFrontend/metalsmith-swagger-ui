@@ -43,9 +43,9 @@ function processFiles(options, files, metalsmith, done) {
     });
     let local = false;
 
-    if (!data.openapi) {
+    if (!data.openApiUrl) {
       local = true;
-      data.openapi = path.basename(file);
+      data.openApiUrl = path.basename(file);
     }
 
     data.swagger = {};
@@ -67,7 +67,7 @@ function processFiles(options, files, metalsmith, done) {
     data.contents = new Buffer(template(data));
 
     files[html] = data;
-    if(local) { // bypass futher processing for local source files
+    if (local) { // bypass futher processing for local source files
       const destination = path.join(metalsmith.destination(), file);
       const dirname = path.dirname(destination);
       fs.ensureDirSync(dirname);
@@ -153,10 +153,10 @@ function copyAssets(options, files, metalsmith, done) {
  *    css/scripts on the default template?
  * @return {Function}
  */
-module.exports = function (opt) {
+module.exports = (opt) => {
   const options = merge({}, defaults, opt);
 
-  return function (files, metalsmith, done) {
+  return (files, metalsmith, done) => {
     async.parallel([
       (callback) => {
         copyAssets(options, files, metalsmith, callback);
