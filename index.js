@@ -25,7 +25,7 @@ const defaults = {
  * Todo: add yaml parsing and aditional validation
  */
 function isOpenAPI(file) {
-  return /\.(json|yml|yaml)$/.test(path.extname(file));
+  return /\.(json|yml|yaml|openapi)$/.test(path.extname(file));
 }
 
 /**
@@ -41,9 +41,11 @@ function processFiles(options, files, metalsmith, done) {
       name: path.basename(file, path.extname(file)),
       ext: '.html',
     });
+    let local = false;
 
-    if (!data.url) {
-      data.url = path.basename(file);
+    if (!data.openApiUrl) {
+      local = true;
+      data.openApiUrl = path.basename(file);
     }
 
     data.swagger = {};
@@ -65,17 +67,18 @@ function processFiles(options, files, metalsmith, done) {
     data.contents = new Buffer(template(data));
 
     files[html] = data;
+    if (local) { // bypass futher processing for local source files
+      const destination = path.join(metalsmith.destination(), file);
+      const dirname = path.dirname(destination);
+      fs.ensureDirSync(dirname);
 
-    // bypass futher processing for source file
-    const destination = path.join(metalsmith.destination(), file);
-    const dirname = path.dirname(destination);
-    fs.ensureDirSync(dirname);
+      fs.writeFileSync(destination, files[file].contents, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+    }
 
-    fs.writeFileSync(destination, files[file].contents, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
     delete files[file];
   });
 
@@ -150,10 +153,10 @@ function copyAssets(options, files, metalsmith, done) {
  *    css/scripts on the default template?
  * @return {Function}
  */
-module.exports = function (opt) {
+module.exports = (opt) => {
   const options = merge({}, defaults, opt);
 
-  return function (files, metalsmith, done) {
+  return (files, metalsmith, done) => {
     async.parallel([
       (callback) => {
         copyAssets(options, files, metalsmith, callback);
