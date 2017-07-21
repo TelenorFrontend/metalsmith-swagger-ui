@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 before((done) => {
+  console.log(1);
   Metalsmith(__dirname)
     .source('./assets/fixtures')
     .destination('./build')
@@ -40,9 +41,6 @@ describe('metalsmith-swagger-ui', () => {
   });
 
   describe('#processFiles', () => {
-    it('should copy assets to the appropriate directory', () => {
-      expect(fs.existsSync(path.join(__dirname, 'build', 'assets', 'swagger-ui', 'swagger-ui.js'))).toBe(true);
-    });
 
     it('should leave source files in the build directory', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'petstore.json'))).toBe(true);
@@ -70,7 +68,7 @@ describe('metalsmith-swagger-ui', () => {
     });
   });
 
-  describe('metalsmith-swagger-ui options', () => {
+  /*describe('metalsmith-swagger-ui options', () => {
     before((done) => {
       Metalsmith(__dirname)
         .source('./assets/fixtures')
@@ -124,5 +122,5 @@ describe('metalsmith-swagger-ui', () => {
         done();
       });
     });
-  });
+  });*/
 });
