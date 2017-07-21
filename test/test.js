@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 
 before((done) => {
-  console.log(1);
   Metalsmith(__dirname)
     .source('./assets/fixtures')
     .destination('./build')
@@ -68,7 +67,7 @@ describe('metalsmith-swagger-ui', () => {
     });
   });
 
-  /*describe('metalsmith-swagger-ui options', () => {
+  describe('metalsmith-swagger-ui options', () => {
     before((done) => {
       Metalsmith(__dirname)
         .source('./assets/fixtures')
@@ -87,18 +86,6 @@ describe('metalsmith-swagger-ui', () => {
         });
     });
 
-    it('should respect the destination option', () => {
-      expect(fs.existsSync(path.join(__dirname, 'build', 'customAssetFolder', 'swagger-ui.js'))).toBe(true);
-    });
-
-    it('should respect the layout option', (done) => {
-      fs.readFile(path.join(__dirname, 'build', 'customAssetFolder', 'swagger-ui-layout.js'), (err, data) => {
-        if (err) throw done(err);
-        expect(data.toString()).toMatch(/customLayout\.js/);
-        done();
-      });
-    });
-
     it('should respect the template option', (done) => {
       fs.readFile(path.join(__dirname, 'build', 'petstore.html'), (err, data) => {
         if (err) throw done(err);
@@ -107,20 +94,5 @@ describe('metalsmith-swagger-ui', () => {
       });
     });
 
-    it('should respect the defaultStylesheet option', (done) => {
-      fs.readFile(path.join(__dirname, 'build', 'petstore.html'), (err, data) => {
-        if (err) throw done(err);
-        expect(data.toString()).toNotMatch(/swagger-ui\.css/);
-        done();
-      });
-    });
-
-    it('should respect the integrateAssets option', (done) => {
-      fs.readFile(path.join(__dirname, 'build', 'petstore.html'), (err, data) => {
-        if (err) throw done(err);
-        expect(data.toString()).toNotMatch(/swagger-ui-bundle\.js/);
-        done();
-      });
-    });
-  });*/
+  });
 });
