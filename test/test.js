@@ -34,15 +34,13 @@ describe('metalsmith-swagger-ui', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'remote.html'))).toBe(true);
     });
 
+    // functionality not implemented yet
     it.skip('should not match invalid Open API specs', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'json.html'))).toBe(false);
     });
   });
 
   describe('#processFiles', () => {
-    it('should copy assets to the appropriate directory', () => {
-      expect(fs.existsSync(path.join(__dirname, 'build', 'assets', 'swagger-ui', 'swagger-ui.js'))).toBe(true);
-    });
 
     it('should leave source files in the build directory', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'petstore.json'))).toBe(true);
@@ -89,18 +87,6 @@ describe('metalsmith-swagger-ui', () => {
         });
     });
 
-    it('should respect the destination option', () => {
-      expect(fs.existsSync(path.join(__dirname, 'build', 'customAssetFolder', 'swagger-ui.js'))).toBe(true);
-    });
-
-    it('should respect the layout option', (done) => {
-      fs.readFile(path.join(__dirname, 'build', 'customAssetFolder', 'swagger-ui-layout.js'), (err, data) => {
-        if (err) throw done(err);
-        expect(data.toString()).toMatch(/customLayout\.js/);
-        done();
-      });
-    });
-
     it('should respect the template option', (done) => {
       fs.readFile(path.join(__dirname, 'build', 'petstore.html'), (err, data) => {
         if (err) throw done(err);
@@ -109,20 +95,5 @@ describe('metalsmith-swagger-ui', () => {
       });
     });
 
-    it('should respect the defaultStylesheet option', (done) => {
-      fs.readFile(path.join(__dirname, 'build', 'petstore.html'), (err, data) => {
-        if (err) throw done(err);
-        expect(data.toString()).toNotMatch(/swagger-ui\.css/);
-        done();
-      });
-    });
-
-    it('should respect the integrateAssets option', (done) => {
-      fs.readFile(path.join(__dirname, 'build', 'petstore.html'), (err, data) => {
-        if (err) throw done(err);
-        expect(data.toString()).toNotMatch(/swagger-ui-bundle\.js/);
-        done();
-      });
-    });
   });
 });
