@@ -34,6 +34,7 @@ describe('metalsmith-swagger-ui', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'remote.html'))).toBe(true);
     });
 
+    // functionality not implemented yet
     it.skip('should not match invalid Open API specs', () => {
       expect(fs.existsSync(path.join(__dirname, 'build', 'json.html'))).toBe(false);
     });
