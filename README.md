@@ -4,7 +4,7 @@ A [Metalsmith](https://github.com/segmentio/metalsmith) plugin to embed [Swagger
 
 ## Installation
 
-    $ npm install --save https://github.com/TelenorFrontend/metalsmith-swagger-ui.git
+    $ npm install --save @telenor-frontend/metalsmith-swagger-ui
 
 ## Javascript Usage
 
